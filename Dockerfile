@@ -1,7 +1,7 @@
-FROM golang:1.20-alpine3.17 AS build
+FROM golang:1.23.3-alpine3.20 AS build
 RUN apk --no-cache add git
 
-ENV CGO_ENABLED 0
+ENV CGO_ENABLED=0
 
 WORKDIR /src/
 ADD . /src/
