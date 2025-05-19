@@ -15,13 +15,22 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Printf("govanityurls (%s/%s) starting up on port %s",
+		runtime.GOOS, runtime.GOARCH, port,
+	)
+
 	var configPath string
 	switch len(os.Args) {
 	case 1:
@@ -31,7 +40,7 @@ func main() {
 	default:
 		log.Fatal("usage: govanityurls [CONFIG]")
 	}
-	vanity, err := ioutil.ReadFile(configPath)
+	vanity, err := os.ReadFile(configPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,10 +50,6 @@ func main() {
 	}
 	http.Handle("/", h)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal(err)
 	}
