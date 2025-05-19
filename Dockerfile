@@ -10,7 +10,7 @@ RUN go install
 
 FROM scratch
 
-LABEL org.opencontainers.image.licenses Apache-2.0
+LABEL org.opencontainers.image.licenses=Apache-2.0
 
 COPY --from=build /go/bin/govanityurls /bin/govanityurls
 EXPOSE 8080
